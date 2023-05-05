@@ -75,7 +75,7 @@ class Polynomial:
             s = "0"
         elif s[0] == '+':
             s = s[1:]
-        print(s)
+        print(s, end='')
 
     def P(self, x: float) -> float:
         r = 0.0
