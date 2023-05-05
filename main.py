@@ -1,9 +1,15 @@
 from forward_difference import ForwardDifference
+from backward_difference import BackwardDifference
 from lagrange import Lagrange
 from neville import Neville
 from newton import Newton
 
 points = [(1, 5), (2, 0), (3, 5)]
+
+backward_difference = BackwardDifference(points)
+backward_difference.get_p().print()
+print()
+print(backward_difference.P(1.5))
 
 forward_difference = ForwardDifference(points)
 forward_difference.get_p().print()
