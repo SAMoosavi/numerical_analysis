@@ -14,16 +14,35 @@ class Newton(Interpolation):
             self.__ni[i + 1] = self.__ni[i].product(Polynomial([1, -self._points[i][0]]))
 
     def __calculate_ai(self, start: int, end: int) -> Polynomial:
+        a = Polynomial([1])
         if start == end:
-            return Polynomial([self._points[start][1]])
+            a = Polynomial([self._points[start][1]])
         elif end - start == 1:
-            return Polynomial([(self._points[end][1] - self._points[start][1]) /
-                               (self._points[end][0] - self._points[start][0])])
+            a = Polynomial([(self._points[end][1] - self._points[start][1]) /
+                            (self._points[end][0] - self._points[start][0])])
         else:
-            return self.__calculate_ai(start + 1, end) \
+            a = self.__calculate_ai(start + 1, end) \
                 .subtraction(self.__calculate_ai(start, end - 1)) \
                 .quotient(Polynomial([(self._points[end][0] - self._points[start][0])]))[0]
 
+        print("f[", end='')
+        b = range(start, end + 1)
+        print(" ,".join([*map(str, b)]), end='')
+        print("] = ", end='')
+        a.print()
+        print()
+        return a
+
     def __calculate_n(self):
+        a = [Polynomial([1])] * len(self.__ni)
+        for i in range(len(a)):
+            a[i] = self.__calculate_ai(0, i)
+
+        print("P = ", end='')
         for i, ni in enumerate(self.__ni):
-            self._p = self._p.sum(ni.product(self.__calculate_ai(0, i)))
+            self._p = self._p.sum(ni.product(a[i]))
+            a[i].print()
+            print('( ', end='')
+            ni.print()
+            print(' ) +', end='')
+        print()
