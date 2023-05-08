@@ -33,6 +33,6 @@ class Lagrange(Interpolation):
         print("================================")
         print("Lagrange")
         for i, val in enumerate(self._points):
-            print(f"{val} =({self.__li[i].get_str()}) / {self.__li[i].P(val[0])} = {self.__li[i].get_str()}")
+            print(f"{val} = ({self.__li[i].get_str()}) / {self.__li[i].P(val[0])} = {self.__li[i].get_str()}")
         self._print()
         print("================================")
