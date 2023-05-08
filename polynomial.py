@@ -48,7 +48,7 @@ class Polynomial:
 
         return Polynomial(q), Polynomial(a_copy)
 
-    def print(self) -> None:
+    def get_str(self) -> str:
         r: list[str] = []
         for i, val in enumerate(self.a):
             s = ""
@@ -75,7 +75,10 @@ class Polynomial:
             s = "0"
         elif s[0] == '+':
             s = s[1:]
-        print(s, end='')
+        return s
+
+    def print(self) -> None:
+        print(self.get_str(), end='')
 
     def P(self, x: float) -> float:
         r = 0.0
