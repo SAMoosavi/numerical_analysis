@@ -30,7 +30,7 @@ class Newton(Interpolation):
         for i, ni in enumerate(self.__ni):
             self._s.append(a[i])
             self._s.append(ni)
-            self._p = self._p.sum(ni.product(Polynomial([a[i]])))
+            self._p = self._p.sum(ni.product(a[i]))
 
     def __print(self):
         print("================================")

@@ -2,7 +2,9 @@ class Polynomial:
     def __init__(self, a: list[float]):
         self.a = a[::-1]
 
-    def sum(self, other: 'Polynomial') -> 'Polynomial':
+    def sum(self, other) -> 'Polynomial':
+        if type(other) != Polynomial:
+            other = Polynomial([other])
         deg = max(len(other.a), len(self.a))
         new_a = [0.0] * deg
         for i in range(deg):
@@ -12,7 +14,9 @@ class Polynomial:
                 new_a[i] += other.a[i]
         return Polynomial(new_a[::-1])
 
-    def subtraction(self, other: 'Polynomial') -> 'Polynomial':
+    def subtraction(self, other) -> 'Polynomial':
+        if type(other) != Polynomial:
+            other = Polynomial([other])
         deg = max(len(other.a), len(self.a))
         new_a = [0.0] * deg
         for i in range(deg):
@@ -22,14 +26,18 @@ class Polynomial:
                 new_a[i] -= other.a[i]
         return Polynomial(new_a[::-1])
 
-    def product(self, other: 'Polynomial') -> 'Polynomial':
+    def product(self, other) -> 'Polynomial':
+        if type(other) != Polynomial:
+            other = Polynomial([other])
         new_a = [0.0] * (len(self.a) + len(other.a) - 1)
         for i, x in enumerate(self.a):
             for j, y in enumerate(other.a):
                 new_a[i + j] += x * y
         return Polynomial(new_a[::-1])
 
-    def quotient(self, other: 'Polynomial') -> ('Polynomial', 'Polynomial'):
+    def quotient(self, other) -> ('Polynomial', 'Polynomial'):
+        if type(other) != Polynomial:
+            other = Polynomial([other])
         a_copy = self.a[::-1]
         if len(a_copy) < len(other.a):
             raise ValueError

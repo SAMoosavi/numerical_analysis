@@ -20,14 +20,14 @@ class Lagrange(Interpolation):
     def __calculate_li(self) -> None:
         for i, val in enumerate(self._points):
             self.__li[i], _ = self.__l.quotient(Polynomial([1, -val[0]]))
-            self.__li[i], _ = self.__li[i].quotient(Polynomial([self.__li[i].P(val[0])]))
+            self.__li[i], _ = self.__li[i].quotient(self.__li[i].P(val[0]))
 
     def __calculate_p(self) -> None:
         for i, val in enumerate(self._points):
             self._s.append(val[1])
             self._s.append(self.__li[i])
-            self.__li[i].product(Polynomial([val[1]]))
-            self._p = self._p.sum(self.__li[i].product(Polynomial([val[1]])))
+            self.__li[i].product(val[1])
+            self._p = self._p.sum(self.__li[i].product(val[1]))
 
     def __print(self):
         print("================================")

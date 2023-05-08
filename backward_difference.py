@@ -19,10 +19,9 @@ class BackwardDifference(Interpolation):
             return self.__calculate_nfi(n - 1, i) - self.__calculate_nfi(n - 1, i - 1)
 
     def __calculate_ni(self):
-        t, _ = Polynomial([1, -self._points[-1][0]]).quotient(Polynomial(
-            [self._points[1][0] - self._points[0][0]]))
+        t, _ = Polynomial([1, -self._points[-1][0]]).quotient(self._points[1][0] - self._points[0][0])
         for i in range(1, self._n):
-            self.__ni[i], _ = self.__ni[i - 1].product(t.sum(Polynomial([i - 1]))).quotient(Polynomial([i]))
+            self.__ni[i], _ = self.__ni[i - 1].product(t.sum(i - 1)).quotient(i)
 
     def __calculate_p(self):
         ai: list[float] = [0] * self._n
@@ -31,7 +30,7 @@ class BackwardDifference(Interpolation):
         for i, val in enumerate(self.__ni):
             self._s.append(ai[i])
             self._s.append(val)
-            self._p = self._p.sum(val.product(Polynomial([ai[i]])))
+            self._p = self._p.sum(val.product(ai[i]))
 
     def __print(self):
         print("================================")
