@@ -1,3 +1,4 @@
+from prettytable import PrettyTable
 from interpolation import Interpolation
 from polynomial import Polynomial
 
@@ -8,41 +9,49 @@ class Newton(Interpolation):
         self.__ni: list[Polynomial] = [Polynomial([1])] * (len(self._points))
         self.__calculate_ni()
         self.__calculate_n()
+        self.__print()
 
     def __calculate_ni(self) -> None:
         for i in range(len(self._points) - 1):
             self.__ni[i + 1] = self.__ni[i].product(Polynomial([1, -self._points[i][0]]))
 
-    def __calculate_ai(self, start: int, end: int) -> Polynomial:
-        a = Polynomial([1])
+    def __calculate_ai(self, start: int, end: int) -> float:
         if start == end:
-            a = Polynomial([self._points[start][1]])
-        elif end - start == 1:
-            a = Polynomial([(self._points[end][1] - self._points[start][1]) /
-                            (self._points[end][0] - self._points[start][0])])
+            return self._points[start][1]
         else:
-            a = self.__calculate_ai(start + 1, end) \
-                .subtraction(self.__calculate_ai(start, end - 1)) \
-                .quotient(Polynomial([(self._points[end][0] - self._points[start][0])]))[0]
-
-        print("f[", end='')
-        b = range(start, end + 1)
-        print(" ,".join([*map(str, b)]), end='')
-        print("] = ", end='')
-        a.print()
-        print()
-        return a
+            numerator = self.__calculate_ai(start + 1, end) - self.__calculate_ai(start, end - 1)
+            denominator = self._points[end][0] - self._points[start][0]
+            return numerator / denominator
 
     def __calculate_n(self):
-        a = [Polynomial([1])] * len(self.__ni)
+        a = [0.0] * len(self.__ni)
         for i in range(len(a)):
             a[i] = self.__calculate_ai(0, i)
-
-        print("P = ", end='')
         for i, ni in enumerate(self.__ni):
-            self._p = self._p.sum(ni.product(a[i]))
-            a[i].print()
-            print('( ', end='')
-            ni.print()
-            print(' ) +', end='')
-        print()
+            self._s.append(a[i])
+            self._s.append(ni)
+            self._p = self._p.sum(ni.product(Polynomial([a[i]])))
+
+    def __print(self):
+        print("================================")
+        print("Newton")
+        print("f[i, j] = (f[(i + 1), j] - f[i, (j - 1)]) / (x_j - x_i)")
+        table = PrettyTable()
+        for n in range(self._n):
+            col = []
+            for i in range(n):
+                col.append("")
+            for i in range(self._n - n):
+                col.append(self.__calculate_ai(i, i + n))
+                col.append("")
+            for i in range(n):
+                col.append("")
+            col.pop()
+            header = "f[i"
+            if n != 0:
+                header += f", i + {n}"
+            header += "]"
+            table.add_column(header, col, align='c')
+        print(table)
+        self._print()
+        print("================================")
