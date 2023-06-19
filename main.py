@@ -13,8 +13,6 @@ forward_difference = ForwardDifference(points)
 print(forward_difference.P(1.5))
 
 neville = Neville(points)
-neville.get_p().print()
-print()
 print(neville.P(1.5))
 
 newton = Newton(points)

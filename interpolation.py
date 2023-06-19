@@ -23,4 +23,6 @@ class Interpolation:
                 if float(i) < 0:
                     a = a[:-1]
                 a += str(i) + "("
-        print(f"P = {a[:-1]}= {self._p.get_str()}")
+        if a != "":
+            a = "= " + a
+        print(f"P {a[:-1]}= {self._p.get_str()}")
