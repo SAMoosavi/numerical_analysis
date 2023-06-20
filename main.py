@@ -6,6 +6,8 @@ from lagrange import Lagrange
 from neville import Neville
 from newton import Newton
 from derivation import Derivation
+from system_of_linear_equations import SystemOfLinearEquations
+
 
 points = [(-1, 0), (0, -1), (1, 0)]
 
@@ -36,3 +38,8 @@ integral = Integral(x ** 3, x, 0, 10)
 print(integral.trapeziums(10))
 print(integral.simson(10))
 print(integral.ramberg(10))
+
+system_of_linear_equations = SystemOfLinearEquations([[10, -1, 2, 0], [-1, 11, -1, 3], [2, -1, 10, -1], [0, 3, -3, 8]],
+                                                     [6, 25, -11, 15], [0, 0, 0, 0])
+print(system_of_linear_equations.gauss_seidel())
+print(system_of_linear_equations.jacobi())
