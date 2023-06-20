@@ -7,7 +7,7 @@ from neville import Neville
 from newton import Newton
 from derivation import Derivation
 from system_of_linear_equations import SystemOfLinearEquations
-
+from differential import Differential
 
 points = [(-1, 0), (0, -1), (1, 0)]
 
@@ -43,3 +43,9 @@ system_of_linear_equations = SystemOfLinearEquations([[10, -1, 2, 0], [-1, 11, -
                                                      [6, 25, -11, 15], [0, 0, 0, 0])
 print(system_of_linear_equations.gauss_seidel())
 print(system_of_linear_equations.jacobi())
+
+y = sp.Symbol('y')
+t = sp.Symbol('t')
+differential = Differential(-y + t + 1, y, t, 0, 1, 1, 10)
+print(differential.euler())
+print(differential.runge_kutta())
