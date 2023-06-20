@@ -1,5 +1,5 @@
 import sympy as sp
-
+from integral import Integral
 from forward_difference import ForwardDifference
 from backward_difference import BackwardDifference
 from lagrange import Lagrange
@@ -25,13 +25,13 @@ lagrange = Lagrange(points)
 print(lagrange.P(1.5))
 
 x = sp.Symbol('x')
-a = sp.sin((((x ** 5 + 5) ** 2) / x ** 6) ** 2) * sp.tan(x)
-derivation = Derivation(0.0001, a, x)
-b = derivation.bisection_method(1.2, 1.5)
-print(b)
-b = derivation.newton_raphson(1.5)
-print(b)
-b = derivation.regula_falsi(1.2, 1.5)
-print(b)
-b = derivation.secant(1.2, 1.5)
-print(b)
+derivation = Derivation(0.0001, x ** 3, x)
+print(derivation.bisection_method(-1, 1))
+print(derivation.newton_raphson(1))
+print(derivation.regula_falsi(-1, 1))
+print(derivation.secant(-1, 1))
+
+integral = Integral(x ** 3, x, 0, 10)
+print(integral.trapeziums(10))
+print(integral.simson(10))
+print(integral.ramberg(10))
