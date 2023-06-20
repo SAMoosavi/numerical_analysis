@@ -25,6 +25,7 @@ lagrange = Lagrange(points)
 print(lagrange.P(1.5))
 
 x = sp.Symbol('x')
+
 derivation = Derivation(0.0001, x ** 3, x)
 print(derivation.bisection_method(-1, 1))
 print(derivation.newton_raphson(1))
