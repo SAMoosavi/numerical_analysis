@@ -1,19 +1,19 @@
 from prettytable import PrettyTable
 from interpolation import Interpolation
-from polynomial import Polynomial
+import sympy as sp
 
 
 class Newton(Interpolation):
     def __init__(self, points: list[(float, float)]):
         super().__init__(points)
-        self.__ni: list[Polynomial] = [Polynomial([1])] * (len(self._points))
+        self.__ni: list[sp.Expr] = [1] * self._n
         self.__calculate_ni()
         self.__calculate_n()
         self.__print()
 
     def __calculate_ni(self) -> None:
-        for i in range(len(self._points) - 1):
-            self.__ni[i + 1] = self.__ni[i].product(Polynomial([1, -self._points[i][0]]))
+        for i in range(self._n - 1):
+            self.__ni[i + 1] = self.__ni[i] * (self._x - self._points[i][0])
 
     def __calculate_ai(self, start: int, end: int) -> float:
         if start == end:
@@ -28,9 +28,7 @@ class Newton(Interpolation):
         for i in range(len(a)):
             a[i] = self.__calculate_ai(0, i)
         for i, ni in enumerate(self.__ni):
-            self._s.append(a[i])
-            self._s.append(ni)
-            self._p = self._p.sum(ni.product(a[i]))
+            self._p += ni * a[i]
 
     def __print(self):
         print("================================")

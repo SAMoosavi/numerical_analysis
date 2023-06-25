@@ -1,28 +1,17 @@
-from polynomial import Polynomial
-
+import sympy as sp
 
 class Interpolation:
     def __init__(self, points: list[(float, float)]):
         self._points = points.copy()
-        self._p: Polynomial = Polynomial([])
+        self._x = sp.Symbol('x')
+        self._p: sp.Expr = (self._x - self._x).simplify()
         self._n = len(points)
-        self._s: list = []
 
-    def get_p(self) -> Polynomial:
-        return self._p
+    def get_p(self) -> sp.Expr:
+        return self._p.simplify()
 
     def P(self, x: float) -> float:
-        return self._p.P(x)
+        return round(self._p.evalf(subs={self._x: x}), 4)
 
     def _print(self):
-        a = ""
-        for i in self._s:
-            if type(i) == Polynomial:
-                a += i.get_str() + ") +"
-            else:
-                if float(i) < 0:
-                    a = a[:-1]
-                a += str(i) + "("
-        if a != "":
-            a = "= " + a
-        print(f"P {a[:-1]}= {self._p.get_str()}")
+        print(f"P = {self._p} = {self.get_p()}")
